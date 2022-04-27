@@ -47,11 +47,26 @@ namespace Pudelko
             return $"{A}{_unit} x {B}{_unit} x {C}{_unit}";
         }
         double Objetosc => Math.Round(A * B * C, 9);
+        double Pole => Math.Round(Objetosc * Objetosc, 6);
 
         public bool Equals(Pudelko? other)
         {
             throw new NotImplementedException();
         }
 
+        public override int GetHashCode()
+        {
+            return 5;
+        }
+
+        public static bool operator ==(Pudelko p1, Pudelko p2) => p1.Equals(p2);
+        public static bool operator !=(Pudelko p1, Pudelko p2) => p1.Equals(p2);
+
+        //algorytmy, jak najmniejsze mozliwe rozmiary
+        public static Pudelko operator +(Pudelko p1, Pudelko p2)
+        {
+            Pudelko p3 = p1 + p2;
+            return p3;
+        }
     }
 }
