@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Pudelko
 {
-    public class Pudelko
+    public class Pudelko : IFormattable
     {
+
+        // in meters by default
         public int A { get; set; }
         public int B { get; set; }
         public int C { get; set; }
@@ -25,7 +27,24 @@ namespace Pudelko
             C = c;
             _unit = unit;
         }
-
-
+       
+        // round to 3 digits after comma, formating pattern
+        // in meters by default
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            switch (format)
+            {
+                case "cm":
+                    _unit = UnitOfMeasure.centimeter;
+                    break;
+                case "mm":
+                    _unit = UnitOfMeasure.milimeter;
+                    break;
+                default: // meter
+                    _unit = UnitOfMeasure.meter;
+                    break;
+            }
+            return $"{A}{format} x {B}{format} x {C}{format}";
+        }
     }
 }
