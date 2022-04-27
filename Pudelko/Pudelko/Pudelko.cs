@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Pudelko
 {
-    public class Pudelko : IFormattable
+    public class Pudelko : IFormattable, IEquatable<Pudelko>
     {
 
         // in meters by default
-        public int A { get; set; }
-        public int B { get; set; }
-        public int C { get; set; }
+        public double A { get; set; }
+        public double B { get; set; }
+        public double C { get; set; }
 
         public enum UnitOfMeasure
         {
@@ -20,7 +20,7 @@ namespace Pudelko
         }
 
         private UnitOfMeasure _unit;
-        public Pudelko(int a, int b, int c, UnitOfMeasure unit)
+        public Pudelko(double a, double b, double c, UnitOfMeasure unit)
         {
             A = a;
             B = b;
@@ -44,7 +44,14 @@ namespace Pudelko
                     _unit = UnitOfMeasure.meter;
                     break;
             }
-            return $"{A}{format} x {B}{format} x {C}{format}";
+            return $"{A}{_unit} x {B}{_unit} x {C}{_unit}";
         }
+        double Objetosc => Math.Round(A * B * C, 9);
+
+        public bool Equals(Pudelko? other)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
