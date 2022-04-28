@@ -6,7 +6,7 @@
         {
             Pudelko pudelko = new Pudelko(5, 10, 4, UnitOfMeasure.milimeter);
             Console.WriteLine(pudelko.A);
-            Console.WriteLine(pudelko.ToString("cm"));
+            Console.WriteLine(pudelko.ToString());
         }       
     }  
 }

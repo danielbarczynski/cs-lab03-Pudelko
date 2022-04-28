@@ -9,11 +9,12 @@ namespace Pudelko
     public class Pudelko : IFormattable, IEquatable<Pudelko>
     {
         private readonly double a, b, c;
+        private UnitOfMeasure _unit;
+
         public double A { get => a; }
         public double B { get => c; }
         public double C { get => c; }
 
-        private UnitOfMeasure _unit;
 
         private double ConvertToMeters(double number, UnitOfMeasure unit)
         {
@@ -67,8 +68,10 @@ namespace Pudelko
                     return $"{a * 100} cm x {b * 100} cm x {c * 100} cm";
                 case "mm":
                     return $"{a * 1000} mm x {b * 1000} mm x {c * 1000} mm";
-                default: // by default meter
+                case "m":
                     return $"{a} m x {b} m x {c} m";
+                default: 
+                    throw new FormatException();
             }
         }
         public override bool Equals(object obj)
