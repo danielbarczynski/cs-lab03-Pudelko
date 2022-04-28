@@ -9,7 +9,7 @@ namespace Pudelko
     public class Pudelko : IFormattable, IEquatable<Pudelko>
     {
         private readonly double a, b, c;
-        private UnitOfMeasure _unit;
+        private readonly UnitOfMeasure _unit;
 
         public double A { get => a; }
         public double B { get => c; }
@@ -32,8 +32,8 @@ namespace Pudelko
             }
         }
 
-        double Objetosc => Math.Round(A * B * C, 9);
-        double Pole => Math.Round(Objetosc * Objetosc, 6); // check
+        public double Objetosc { get => Math.Round((a * 1000) * (b * 1000) * (c * 1000), 9); } // TODO: change to meters to not multiply?
+        public double Pole { get => Math.Round(2 * ((a * 1000) * (b * 1000) + (a * 1000) * (c * 1000) + (b * 1000) * (c * 1000)), 6); }// Pc = 2(ab + ac + bc)
 
 
         public Pudelko(double _a, double _b, double _c, UnitOfMeasure unit)
@@ -88,12 +88,19 @@ namespace Pudelko
 
         public bool Equals(Pudelko other)
         {
-            throw new NotImplementedException();
+            if (Pole == other.Pole && Objetosc == other.Objetosc)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }            
         }
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return A.GetHashCode() + B.GetHashCode() + C.GetHashCode();
         }
 
         public static bool operator ==(Pudelko p1, Pudelko p2) => p1.Equals(p2);
@@ -102,7 +109,7 @@ namespace Pudelko
         //algorithms, make the smallest possible parameters ( A x B x C)
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
         {
-            //todo: code here
+            //TODO: code here
             Pudelko p3 = p1 + p2;
             return p3;
         }
