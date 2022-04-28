@@ -31,7 +31,7 @@ namespace Pudelko
                 return number;
             }
         }
-
+        // both in milimeters
         public double Objetosc { get => Math.Round((a * 1000) * (b * 1000) * (c * 1000), 9); } // TODO: change to meters to not multiply?
         public double Pole { get => Math.Round(2 * ((a * 1000) * (b * 1000) + (a * 1000) * (c * 1000) + (b * 1000) * (c * 1000)), 6); }// Pc = 2(ab + ac + bc)
 
@@ -64,13 +64,13 @@ namespace Pudelko
         {
             switch (format)
             {
-                case "cm":
-                    return $"{a * 100} cm x {b * 100} cm x {c * 100} cm";
+                case "cm": // round 1 digit after comma
+                    return $"{a * 100} cm x {b * 100} cm x {c * 100} cm"; // no rounding
                 case "mm":
                     return $"{a * 1000} mm x {b * 1000} mm x {c * 1000} mm";
-                case "m":
+                case "m": // round 3 digits after comma
                     return $"{a} m x {b} m x {c} m";
-                default: 
+                default:
                     throw new FormatException();
             }
         }
@@ -95,16 +95,19 @@ namespace Pudelko
             else
             {
                 return false;
-            }            
+            }
         }
 
         public override int GetHashCode()
         {
-            return A.GetHashCode() + B.GetHashCode() + C.GetHashCode();
+            return a.GetHashCode() + b.GetHashCode() + c.GetHashCode();
         }
 
         public static bool operator ==(Pudelko p1, Pudelko p2) => p1.Equals(p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => p1.Equals(p2);
+
+        public static explicit operator double[](Pudelko p) => new double[] { p.a, p.b, p.c }; // jawne
+        public static implicit operator Pudelko(ValueTuple<int, int, int, UnitOfMeasure> p) => new Pudelko(p.Item1, p.Item2, p.Item3, UnitOfMeasure.milimeter); //niejawne (krotka)
 
         //algorithms, make the smallest possible parameters ( A x B x C)
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
@@ -112,6 +115,24 @@ namespace Pudelko
             //TODO: code here
             Pudelko p3 = p1 + p2;
             return p3;
+        }
+
+        public double this[int i]
+        {
+            get
+            {
+                switch (i)
+                {
+                    case 0:
+                        return a;
+                    case 1:
+                        return b;
+                    case 2:
+                        return c;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
         }
     }
 }
