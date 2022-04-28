@@ -47,7 +47,16 @@ namespace Pudelko
                 throw new ArgumentOutOfRangeException();
             }
         }
-       
+        public override string ToString()
+        {
+            return ToString("m");
+        }
+
+        public string ToString(string format)
+        {
+            return ToString(format, null);
+        }
+
         // round to 3 digits after comma, formating pattern
         // in meters by default
         public string ToString(string? format, IFormatProvider? formatProvider)
