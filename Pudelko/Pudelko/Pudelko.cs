@@ -13,11 +13,6 @@ namespace Pudelko
         public double B { get; set; }
         public double C { get; set; }
 
-        public enum UnitOfMeasure
-        {
-            milimeter, centimeter, meter
-        }
-
         private UnitOfMeasure _unit;
 
         private double ConvertToMeters(double number, UnitOfMeasure unit)
