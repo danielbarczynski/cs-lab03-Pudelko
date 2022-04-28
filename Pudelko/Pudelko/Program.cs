@@ -1,2 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace Pudelko
+{
+    class Program
+    {
+        Pudelko pudelko = new Pudelko(5, 10, 4, Pudelko.UnitOfMeasure.meter);
+    }  
+}
+

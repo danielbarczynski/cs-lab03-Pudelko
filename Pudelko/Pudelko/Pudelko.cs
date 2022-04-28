@@ -8,7 +8,6 @@ namespace Pudelko
 {
     public class Pudelko : IFormattable, IEquatable<Pudelko>
     {
-
         // in meters by default
         public double A { get; set; }
         public double B { get; set; }
@@ -20,12 +19,38 @@ namespace Pudelko
         }
 
         private UnitOfMeasure _unit;
+
+        private double ConvertToMeters(double number, UnitOfMeasure unit)
+        {
+            if (unit == UnitOfMeasure.milimeter)
+            {
+                return number / 1000;
+            }
+            else if (unit == UnitOfMeasure.centimeter)
+            {
+                return number / 100;
+            }
+            else
+            {
+                return number;
+            }
+        }
+
+        double Objetosc => Math.Round(A * B * C, 9);
+        double Pole => Math.Round(Objetosc * Objetosc, 6); // sprawdzic
+
+
         public Pudelko(double a, double b, double c, UnitOfMeasure unit)
         {
-            A = a;
-            B = b;
-            C = c;
             _unit = unit;
+            A = ConvertToMeters(a, unit);
+            B = ConvertToMeters(b, unit);
+            C = ConvertToMeters(c, unit);
+
+            if (A <= 0 || A > 10 || B <= 0 || B > 10 || C <= 0 | C > 10)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
        
         // round to 3 digits after comma, formating pattern
@@ -46,8 +71,10 @@ namespace Pudelko
             }
             return $"{A}{_unit} x {B}{_unit} x {C}{_unit}";
         }
-        double Objetosc => Math.Round(A * B * C, 9);
-        double Pole => Math.Round(Objetosc * Objetosc, 6);
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Pudelko);
+        }
 
         public bool Equals(Pudelko? other)
         {
