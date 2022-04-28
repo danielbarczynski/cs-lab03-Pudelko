@@ -8,10 +8,10 @@ namespace Pudelko
 {
     public class Pudelko : IFormattable, IEquatable<Pudelko>
     {
-        // in meters by default
-        public double A { get; set; }
-        public double B { get; set; }
-        public double C { get; set; }
+        private readonly double a, b, c;
+        public double A { get => a;}
+        public double B { get => c; }
+        public double C { get => c; }
 
         private UnitOfMeasure _unit;
 
@@ -32,15 +32,15 @@ namespace Pudelko
         }
 
         double Objetosc => Math.Round(A * B * C, 9);
-        double Pole => Math.Round(Objetosc * Objetosc, 6); // sprawdzic
+        double Pole => Math.Round(Objetosc * Objetosc, 6); // check
 
 
-        public Pudelko(double a, double b, double c, UnitOfMeasure unit)
+        public Pudelko(double _a, double _b, double _c, UnitOfMeasure unit)
         {
             _unit = unit;
-            A = ConvertToMeters(a, unit);
-            B = ConvertToMeters(b, unit);
-            C = ConvertToMeters(c, unit);
+            a = ConvertToMeters(_a, unit);
+            b = ConvertToMeters(_b, unit);
+            c = ConvertToMeters(_c, unit);
 
             if (A <= 0 || A > 10 || B <= 0 || B > 10 || C <= 0 | C > 10)
             {
@@ -73,7 +73,8 @@ namespace Pudelko
                     _unit = UnitOfMeasure.meter;
                     break;
             }
-            return $"{A}{_unit} x {B}{_unit} x {C}{_unit}";
+
+            return $"{a} {_unit} x {b} {_unit} x {c} {_unit}";
         }
         public override bool Equals(object obj)
         {
