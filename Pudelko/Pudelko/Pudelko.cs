@@ -9,7 +9,7 @@ namespace Pudelko
     public class Pudelko : IFormattable, IEquatable<Pudelko>
     {
         private readonly double a, b, c;
-        public double A { get => a;}
+        public double A { get => a; }
         public double B { get => c; }
         public double C { get => c; }
 
@@ -59,44 +59,47 @@ namespace Pudelko
 
         // round to 3 digits after comma, formating pattern
         // in meters by default
-        public string ToString(string? format, IFormatProvider? formatProvider)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
             switch (format)
             {
                 case "cm":
-                    _unit = UnitOfMeasure.centimeter;
-                    break;
+                    return $"{a * 100} cm x {b * 100} cm x {c * 100} cm";
                 case "mm":
-                    _unit = UnitOfMeasure.milimeter;
-                    break;
-                default: // meter
-                    _unit = UnitOfMeasure.meter;
-                    break;
+                    return $"{a * 1000} mm x {b * 1000} mm x {c * 1000} mm";
+                default: // by default meter
+                    return $"{a} m x {b} m x {c} m";
             }
-
-            return $"{a} {_unit} x {b} {_unit} x {c} {_unit}";
         }
         public override bool Equals(object obj)
         {
-            return Equals(obj as Pudelko);
+            if (obj is Pudelko)
+            {
+                return Equals(obj as Pudelko);
+            }
+            else
+            {
+                return Equals(obj);
+            }
         }
 
-        public bool Equals(Pudelko? other)
+        public bool Equals(Pudelko other)
         {
             throw new NotImplementedException();
         }
 
         public override int GetHashCode()
         {
-            return 5;
+            throw new NotImplementedException();
         }
 
         public static bool operator ==(Pudelko p1, Pudelko p2) => p1.Equals(p2);
         public static bool operator !=(Pudelko p1, Pudelko p2) => p1.Equals(p2);
 
-        //algorytmy, jak najmniejsze mozliwe rozmiary
+        //algorithms, make the smallest possible parameters ( A x B x C)
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
         {
+            //todo: code here
             Pudelko p3 = p1 + p2;
             return p3;
         }
