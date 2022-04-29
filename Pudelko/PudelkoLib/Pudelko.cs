@@ -39,7 +39,6 @@ namespace PudelkoLib
 
         public Pudelko(double _a, double _b, double _c, UnitOfMeasure unit)
         {
-            _unit = unit;
             a = ConvertToMeters(_a, unit);
             b = ConvertToMeters(_b, unit);
             c = ConvertToMeters(_c, unit);
@@ -48,6 +47,8 @@ namespace PudelkoLib
             {
                 throw new ArgumentOutOfRangeException();
             }
+            _unit = unit;
+            
         }
         public override string ToString()
         {
