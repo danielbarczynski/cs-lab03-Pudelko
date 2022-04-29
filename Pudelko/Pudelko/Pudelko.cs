@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Pudelko
 {
-    public class Pudelko : IFormattable, IEquatable<Pudelko>
+    public sealed class Pudelko : IFormattable, IEquatable<Pudelko>, IEnumerable<double>
     {
         private readonly double a, b, c;
-        private readonly UnitOfMeasure _unit;
+        private readonly UnitOfMeasure? _unit;
 
         public double A { get => a; }
         public double B { get => c; }
@@ -113,8 +114,18 @@ namespace Pudelko
         public static Pudelko operator +(Pudelko p1, Pudelko p2)
         {
             //TODO: code here
-            Pudelko p3 = p1 + p2;
-            return p3;
+            //Pudelko p3 = p1 + p2;
+            //return p3;
+
+            // w zasadzie dopasowac i dodac najmniejsze odcinki do siebie czyli dla p1 a = 5 b = 1 p1[0] = b i to samo z p2
+            // tylko ze niektore warianty moga byc w rzeczywistosci niemozliwe do dopasowania 
+            // przyjac maksymalna dlugosc szerokosc i wysokosc trzeciego pudelka (?)
+            return new Pudelko(
+              p1[0] + p2[0],
+              p1[1] + p2[1],
+              p1[2] + p2[2],
+              UnitOfMeasure.meter
+          );
         }
 
         public double this[int i]
@@ -133,6 +144,48 @@ namespace Pudelko
                         throw new IndexOutOfRangeException();
                 }
             }
+        }
+
+        // prototype, implementation below doesnt work
+
+        List<double> odcinki = new List<double> { 5.0, 6.0, 7.0 }; // a, b, c (but fields must be static), anyway it doesnt work
+        public IEnumerator<double> GetEnumerator()
+        {
+            foreach (var x in odcinki)
+            {
+                yield return x;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => odcinki.GetEnumerator();
+
+        //new P(2.5, 9.321, 0.1) == P.Parse("2.500 m × 9.321 m × 0.100 m")
+        // max length = 27 a = 0-5 b = 11-15 c = 21-25
+        public static Pudelko Parsowanie(string parse)
+        {
+            UnitOfMeasure unit = UnitOfMeasure.meter;
+            string[] parseSplit = parse.Split(' ');
+            //var slice = parseSplit[0..5];
+            //var slice2 = parseSplit[8..12];
+            //var slice3 = parseSplit[16..20];
+            double a = double.Parse(parseSplit[0]);
+            double b = double.Parse(parseSplit[8]);
+            double c = double.Parse(parseSplit[16]);
+
+            if (parse.Contains("mm"))
+            {
+                unit = UnitOfMeasure.milimeter;
+            }
+            else if (parse.Contains('m'))
+            {
+                unit = UnitOfMeasure.meter;
+            }
+            else if (parse.Contains("cm"))
+            {
+                unit = UnitOfMeasure.centimeter;
+            }
+
+            return new Pudelko(a, b, c, unit);
         }
     }
 }

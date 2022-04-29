@@ -11,7 +11,8 @@
             Console.WriteLine(pudelko.A);
             Console.WriteLine(pudelko.GetHashCode());
             Console.WriteLine(pudelko.Equals(pudelko2));
-            Console.WriteLine(pudelko[2]); 
+            Console.WriteLine(pudelko[2]);
+            Console.WriteLine(pudelko.GetEnumerator()); 
            
         }       
     }  
