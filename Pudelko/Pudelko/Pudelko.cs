@@ -117,8 +117,8 @@ namespace Pudelko
             //Pudelko p3 = p1 + p2;
             //return p3;
 
-            // w zasadzie dopasowac i dodac najmniejsze odcinki do siebie czyli dla p1 a = 5 b = 1 p1[0] = b i to samo z p2
-            // tylko ze niektore warianty moga byc w rzeczywistosci niemozliwe do dopasowania 
+            // w zasadzie dopasowac i dodac najmniejsze odcinki do siebie czyli dla p1 a = 5 b = 1 p1[0] = b i to samo z p2 (posortowac?)
+            // tylko ze niektore warianty moga byc w rzeczywistosci niemozliwe do dopasowania np jak do dlugosci p1 dopasuje szerokosc p2 a do wysokosci p1 dlugosc p2
             // przyjac maksymalna dlugosc szerokosc i wysokosc trzeciego pudelka (?)
             return new Pudelko(
               p1[0] + p2[0],
