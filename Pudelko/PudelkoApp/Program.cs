@@ -14,8 +14,19 @@ namespace PudelkoApp
             Console.WriteLine(pudelko.GetHashCode());
             Console.WriteLine(pudelko.Equals(pudelko2));
             Console.WriteLine(pudelko[2]);
-            Console.WriteLine(pudelko.GetEnumerator()); 
-           
+            Console.WriteLine(pudelko.GetEnumerator());
+            //Console.WriteLine(pudelko.Kompresuj()); // objetosc 200000 wiec i tak wyrzuca blad bo powyzej 10
+       
+            
+            List<Pudelko> list = new List<Pudelko>
+            {
+                new Pudelko(10, 10, 10, UnitOfMeasure.centimeter),
+                new Pudelko(2333, 1765.4, 995.75, UnitOfMeasure.milimeter),
+                new Pudelko(2, 7.5, 0.34, UnitOfMeasure.meter),                
+            };
+            //foreach (var item in list)
+            //    Console.WriteLine(item);
+
         }       
     }  
 }
