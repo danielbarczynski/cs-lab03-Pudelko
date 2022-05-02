@@ -9,12 +9,14 @@ namespace PudelkoLib
 {
     public sealed class Pudelko : IFormattable, IEquatable<Pudelko>, IEnumerable<double>
     {
+        public delegate int Comparison<Pudelko>(Pudelko p1, Pudelko p2);
+
         private readonly double a, b, c;
         private readonly UnitOfMeasure? _unit;
 
-        public double A { get => a; }
-        public double B { get => c; }
-        public double C { get => c; }
+        public double? A { get => a; }
+        public double? B { get => c; }
+        public double? C { get => c; }
 
 
         private double ConvertToMeters(double number, UnitOfMeasure unit)
@@ -33,22 +35,47 @@ namespace PudelkoLib
             }
         }
         // both in milimeters
-        public double Objetosc { get => Math.Round((a * 1000) * (b * 1000) * (c * 1000), 9); } // TODO: change to meters to not multiply?
-        public double Pole { get => Math.Round(2 * ((a * 1000) * (b * 1000) + (a * 1000) * (c * 1000) + (b * 1000) * (c * 1000)), 6); }// Pc = 2(ab + ac + bc)
+        public double Objetosc { get => Math.Round((a) * (b) * (c ), 9); } // TODO: change to meters to not multiply?
+        public double Pole { get => Math.Round(2 * ((a) * (b) + (a) * (c ) + (b ) * (c )), 6); }// Pc = 2(ab + ac + bc)
 
-
-        public Pudelko(double _a, double _b, double _c, UnitOfMeasure unit)
+        //public Pudelko(double _a, double _b, double _c, UnitOfMeasure unit)
+        //{
+        //    a = ConvertToMeters(_a, unit);
+        //    b = ConvertToMeters(_b, unit);
+        //    c = ConvertToMeters(_c, unit);
+        public Pudelko(double? _a = null, double? _b = null, double? _c = null, UnitOfMeasure? unit = null)
         {
-            a = ConvertToMeters(_a, unit);
-            b = ConvertToMeters(_b, unit);
-            c = ConvertToMeters(_c, unit);
+            if (unit == null) // niestety i tak nie bedzie dzialac, bo pola nie sa nullable, zostawiam na wypadek gdybym na cos wpadl
+            {
+                unit = UnitOfMeasure.meter;
+            }
+            if (_a == null)
+            {
+                c = 0.1;
+                unit = UnitOfMeasure.meter;
+            }
+            else if (_b == null)
+            {
+                b = 0.1;
+                unit = UnitOfMeasure.meter;
+            }
+            else if (_c == null)
+            {
+                c = 0.1;
+                unit = UnitOfMeasure.meter;
+            }
 
-            if (A <= 0 || A > 10 || B <= 0 || B > 10 || C <= 0 | C > 10)
+            a = ConvertToMeters((double)_a, (UnitOfMeasure)unit);
+            b = ConvertToMeters((double)_b, (UnitOfMeasure)unit);
+            c = ConvertToMeters((double)_c, (UnitOfMeasure)unit);
+
+            if (a <= 0 || a > 10 || b <= 0 || b > 10 || c <= 0 | c > 10)
             {
                 throw new ArgumentOutOfRangeException();
             }
+
             _unit = unit;
-            
+
         }
         public override string ToString()
         {
@@ -187,6 +214,30 @@ namespace PudelkoLib
             }
 
             return new Pudelko(a, b, c, unit);
+        }
+
+        public static int Porownaj(Pudelko p1, Pudelko p2) // troche nie rozumiem jak to ma zwracac posortowane pudełka, ale powiedział Pan w nagraniu, że ma zwracać wartość dodatnią ujemną lub zero czyli rozumiem 1, 0, -1
+        {
+            if (p1.Objetosc == p2.Objetosc || p1.Pole == p2.Pole || p1.a + p1.b + p1.c == p2.a + p2.b + p2.c)
+            {
+                return 0;
+            }
+            else if (p1.Objetosc < p2.Objetosc)
+            {
+                return 1;
+            }
+            else if (p1.Pole < p2.Pole)
+            {
+                return 1;
+            }
+            else if (p1.a + p1.b + p1.c < p2.a + p2.b + p2.c)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }
